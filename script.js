@@ -17,54 +17,54 @@ const filterbuttons =document.querySelectorAll(".filter-buttons button");
             }); 
              });
              }); 
+
 const filter =document.querySelectorAll(".filter-buttons button");
+const items=document.querySelector(".items");
      window.addEventListener("scroll", () =>{    
      filter.forEach(button => {  
        const rect=button.getBoundingClientRect();   
        if (rect.top < window.innerHeight -100){   
-        button.classList.add("animationfilter");  
+        button.classList.add("animationfilter"); 
+        items.classList.add("animationfilter"); 
    }   
        });
              });
 
 const container = document.querySelector('#clients .all-items');
-const nextBtn = document.getElementById('next');
-const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+  const prevBtn = document.getElementById('prev');
 
-// نحسب عرض الكارت + المسافة اللي بينهم (gap)
-function getItemScrollWidth() {
-  const item = container.querySelector('.item');
-  const itemStyles = window.getComputedStyle(item);
-  const itemMargin = parseFloat(itemStyles.marginRight) || 0; // لو فيه margin
-  const gap = parseFloat(window.getComputedStyle(container).gap) || 0;
-  return item.offsetWidth + gap + itemMargin;
-}
+  const scrollAmount = 300; 
 
-// نحسب اتجاه الصفحة
-const isRTL = document.documentElement.getAttribute('dir') === 'rtl';
+  nextBtn.addEventListener('click', () => {
+    container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+  });
 
-nextBtn.addEventListener('click', () => {
-  const scrollAmount = getItemScrollWidth();
-  container.scrollBy({ left: isRTL ? -scrollAmount : scrollAmount, behavior: 'smooth' });
-});
-
-prevBtn.addEventListener('click', () => {
-  const scrollAmount = getItemScrollWidth();
-  container.scrollBy({ left: isRTL ? scrollAmount : -scrollAmount, behavior: 'smooth' });
-});
+  prevBtn.addEventListener('click', () => {
+    container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+  });
 
 const menu = document.getElementById("mobile-menu");
 const menubtn= document.getElementById("menu-icon");
 const menua =document.querySelectorAll(".mobile-menu a");
+const icon = document.querySelector("#menu-icon i");
 const animation ="animation-menu";
 menubtn.addEventListener("click", () => {
  if (menu.style.display === "flex") {
     menu.style.display = "none";
     menua.forEach(link =>{link.style.display="none"});
-  } 
+  }
   else {
     menu.style.display = "flex";
     menua.forEach(link =>{link.style.display="flex"});
     menu.classList.add(animation);
   }
 })  
+menua.forEach(link => {
+  link.style.display = "flex";
+  
+  link.addEventListener("click", () => {
+    menu.style.display = "none";
+    icon.style.color="var(--primary-color)";
+  });
+});
